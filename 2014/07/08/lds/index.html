@@ -4,15 +4,17 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>first post | sqm&#39;s Blog</title>
+    <title>lds文件 | sqm&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="SunQingmeng">
     
-    <meta name="description" content="第一个post
-以后就落定在hexo了。也希望能通过hexo持续不断的学习css，js。
-link from wiki
-在vimwiki中连接过来的blog目录，直接用于生成页面，使用vimwiki进行管理source。">
+    <meta name="description" content="用途
+把多个文件中的sections，输出到一个文件中。输入文件中的sections：input sections，输出文件中sections叫做output sections。
+section
+内容：名字、大小。
+属性：可加载的（loadable）；可分配的（allocatable）。
+地址：VM">
     
     
     
@@ -69,15 +71,15 @@ link from wiki
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/07/08/index/" title="first post" itemprop="url">first post</a>
+      <a href="/2014/07/08/lds/" title="lds文件" itemprop="url">lds文件</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://yoursite.com" title="SunQingmeng">SunQingmeng</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-07-08T08:44:03.000Z" itemprop="datePublished">7月 8 2014</time>
-    更新日期:<time datetime="2014-07-08T08:45:49.000Z" itemprop="dateModified">7月 8 2014</time>
+    <time datetime="2014-07-08T13:41:53.000Z" itemprop="datePublished">7月 8 2014</time>
+    更新日期:<time datetime="2014-07-08T14:11:33.000Z" itemprop="dateModified">7月 8 2014</time>
     
   </p>
 </header>
@@ -86,20 +88,81 @@ link from wiki
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#第一个post"><span class="toc-number">1.</span> <span class="toc-text">第一个post</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#link_from_wiki"><span class="toc-number">1.1.</span> <span class="toc-text">link from wiki</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#用途"><span class="toc-number">1.</span> <span class="toc-text">用途</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#section"><span class="toc-number">2.</span> <span class="toc-text">section</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#脚本格式"><span class="toc-number">3.</span> <span class="toc-text">脚本格式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#简单例子"><span class="toc-number">4.</span> <span class="toc-text">简单例子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#脚本命令"><span class="toc-number">5.</span> <span class="toc-text">脚本命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对符号的赋值"><span class="toc-number">6.</span> <span class="toc-text">对符号的赋值</span></a></li></ol>
 		</div>
 		
-		<h1 id="第一个post">第一个post</h1>
-<p>以后就落定在hexo了。也希望能通过hexo持续不断的学习css，js。</p>
-<h2 id="link_from_wiki">link from wiki</h2>
-<p>在vimwiki中连接过来的blog目录，直接用于生成页面，使用vimwiki进行管理source。</p>
+		<h1 id="用途">用途</h1>
+<p>把多个文件中的sections，输出到一个文件中。输入文件中的sections：input sections，输出文件中sections叫做output sections。</p>
+<h1 id="section">section</h1>
+<p>内容：名字、大小。</p>
+<p>属性：可加载的（loadable）；可分配的（allocatable）。</p>
+<p>地址：VMA，虚拟内存地址（程序地址）；LMA，加载内存地址（进程空间地址）。</p>
+<blockquote>
+<p>一般是一致的，但在嵌入式系统中，经常存在加载地址和执行地址不同的情况。比如将输出文件加载到开发板的flash中，而在运行时将位于flash中输出文件复制到SDRAM中。</p>
+</blockquote>
+<p>符号：包含已定义和未定义符号。</p>
+<p>符号值：每个符号对应一个地址，即符号值（这与C程序内变量的值不一样，某种情况可以堪称变量的地址），可用nm查看他们！</p>
+<h1 id="脚本格式">脚本格式</h1>
+<p>有一系列命令组成，每个命令由一个关键字（一般在其后紧随相关参数）或一条对符号的赋值语句组成，命令由份好分隔开。</p>
+<p>文件名或格式名如果包含分号‘；’或者其他分隔符，则要用‘”’引号将名字全称引用起来，无法处理包含引号的文件名。</p>
+<h1 id="简单例子">简单例子</h1>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>	SECTIONS {
+			. = 0x10000;
+			.text:{*(.text)}
+			. = 0x8000000;
+			.data:{*(.data)}
+			.bss:{*(.bss)}
+	}
+</pre></td></tr></table></figure>
+
+<ul>
+<li><p>.点号是位置指针，指示当前位置。</p>
+</li>
+<li><p>‘*’符号代表任意文件的。</p>
+</li>
+<li><p>上面例子表示，将输出文件的text section定位在0x10000，data section定位在0x8000000。</p>
+</li>
+</ul>
+<h1 id="脚本命令">脚本命令</h1>
+<p>ENTRY(SYMBOL)：将符号SYMBOL的值设置成入口地址。</p>
+<p>ld设置进程入口地址，优先级高在前：</p>
+<ul>
+<li><p>ld命令行的-e选项</p>
+</li>
+<li><p>连接脚本的ENTRY(SYMBOL)命令</p>
+</li>
+<li><p>定义start符号，使用start符号值</p>
+</li>
+<li><p>.text section的起始位置</p>
+</li>
+<li><p>使用值0</p>
+</li>
+</ul>
+<p>还有其他如输入输出文件格式等命令。</p>
+<h1 id="对符号的赋值">对符号的赋值</h1>
+<p>赋值会出现三个位置：</p>
+<ul>
+<li><p>SECTIONS命令内</p>
+</li>
+<li><p>SECTIONS命令内的section表述内</p>
+</li>
+<li><p>全局位置</p>
+</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/life/">life</a>
+  <span></span> <a href="/tags/link/">link</a>
   </div>
 
 
@@ -107,7 +170,7 @@ link from wiki
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yoursite.com/2014/07/08/index/" data-title="first post | sqm&#39;s Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://yoursite.com/2014/07/08/lds/" data-title="lds文件 | sqm&#39;s Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -116,14 +179,14 @@ link from wiki
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/07/08/lds/" title="lds文件">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  lds文件</span>
+
+<div class="next">
+<a href="/2014/07/08/index/"  title="first post">
+ <strong>NEXT:</strong><br/> 
+ <span>first post
+</span>
 </a>
 </div>
-
 
 </nav>
 
@@ -133,7 +196,7 @@ link from wiki
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#第一个post"><span class="toc-number">1.</span> <span class="toc-text">第一个post</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#link_from_wiki"><span class="toc-number">1.1.</span> <span class="toc-text">link from wiki</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#用途"><span class="toc-number">1.</span> <span class="toc-text">用途</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#section"><span class="toc-number">2.</span> <span class="toc-text">section</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#脚本格式"><span class="toc-number">3.</span> <span class="toc-text">脚本格式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#简单例子"><span class="toc-number">4.</span> <span class="toc-text">简单例子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#脚本命令"><span class="toc-number">5.</span> <span class="toc-text">脚本命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对符号的赋值"><span class="toc-number">6.</span> <span class="toc-text">对符号的赋值</span></a></li></ol>
   </div>
 
 <div id="asidepart">
