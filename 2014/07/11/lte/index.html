@@ -1,0 +1,750 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>lte | sqm&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="SunQingmeng">
+    
+    <meta name="description" content="3G
+先引入现用WCDMA R99版本网络结构作为切入点。
+移动通信息系统包含接入网(RAN)和核心网(CN)。
+
+在WCDMA-R99核心网中包含CS域，PS域。
+
+UMTS：3G技术统称之为UMTS(Universal Mobile Telecommunications System)，意即通用">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="sqm&#39;s Blog" title="sqm&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="sqm&#39;s Blog">sqm&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/07/11/lte/" title="lte" itemprop="url">lte</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="SunQingmeng">SunQingmeng</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-07-11T03:38:05.000Z" itemprop="datePublished">7月 11 2014</time>
+    更新日期:<time datetime="2014-07-11T06:19:47.000Z" itemprop="dateModified">7月 11 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#3G"><span class="toc-number">1.</span> <span class="toc-text">3G</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-75G"><span class="toc-number">2.</span> <span class="toc-text">2-2.75G</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4G"><span class="toc-number">3.</span> <span class="toc-text">4G</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#网元"><span class="toc-number">3.1.</span> <span class="toc-text">网元</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#手机"><span class="toc-number">3.1.1.</span> <span class="toc-text">手机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基站"><span class="toc-number">3.1.2.</span> <span class="toc-text">基站</span></a></li><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#BTS_-&gt;_BSC/PCU"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">BTS -&gt; BSC/PCU</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Node_B_-&gt;_RNC"><span class="toc-number">3.1.2.2.</span> <span class="toc-text">Node B -&gt; RNC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ENodeB"><span class="toc-number">3.1.2.3.</span> <span class="toc-text">ENodeB</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4G网元(核心网节点/服务设备)"><span class="toc-number">3.1.2.4.</span> <span class="toc-text">4G网元(核心网节点/服务设备)</span></a></li></ol></ol></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#EPS"><span class="toc-number"></span> <span class="toc-text">EPS</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#名词解释"><span class="toc-number">1.</span> <span class="toc-text">名词解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关心的流程"><span class="toc-number">2.</span> <span class="toc-text">关心的流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PDN连接"><span class="toc-number">3.</span> <span class="toc-text">PDN连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跟踪区TA"><span class="toc-number">4.</span> <span class="toc-text">跟踪区TA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#移动性管理"><span class="toc-number">5.</span> <span class="toc-text">移动性管理</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TAU"><span class="toc-number">5.1.</span> <span class="toc-text">TAU</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#连接管理"><span class="toc-number">6.</span> <span class="toc-text">连接管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#承载管理"><span class="toc-number">7.</span> <span class="toc-text">承载管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E-UTRAN初始化附着"><span class="toc-number">8.</span> <span class="toc-text">E-UTRAN初始化附着</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始附着通过IMSI进行附着"><span class="toc-number">8.1.</span> <span class="toc-text">初始附着通过IMSI进行附着</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过GUTI进行附着"><span class="toc-number">8.2.</span> <span class="toc-text">通过GUTI进行附着</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#服务请求"><span class="toc-number">9.</span> <span class="toc-text">服务请求</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UE发起"><span class="toc-number">9.1.</span> <span class="toc-text">UE发起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络侧发起"><span class="toc-number">9.2.</span> <span class="toc-text">网络侧发起</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5_Handover"><span class="toc-number">10.</span> <span class="toc-text">5.5 Handover</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-1_Intra-E-UTRAN_handover"><span class="toc-number">10.1.</span> <span class="toc-text">5.5.1 Intra-E-UTRAN handover</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-5-1-1_X2-based_handover"><span class="toc-number">10.1.1.</span> <span class="toc-text">5.5.1.1 X2-based handover</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-5-1-2_S1-based_handover"><span class="toc-number">10.1.2.</span> <span class="toc-text">5.5.1.2 S1-based handover</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-2_Inter_RAT_handover"><span class="toc-number">10.2.</span> <span class="toc-text">5.5.2 Inter RAT handover</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#GTPV2"><span class="toc-number"></span> <span class="toc-text">GTPV2</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2_Protocol_stack"><span class="toc-number">1.</span> <span class="toc-text">4.2 Protocol stack</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-0_General"><span class="toc-number">1.1.</span> <span class="toc-text">4.2.0 General</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1_UDP_header_and_port_numbers"><span class="toc-number">1.2.</span> <span class="toc-text">4.2.1 UDP header and port numbers</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-1_Initial_Messages"><span class="toc-number">1.2.1.</span> <span class="toc-text">4.2.1.1 Initial Messages</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-2_Triggered_Messages"><span class="toc-number">1.2.2.</span> <span class="toc-text">4.2.1.2 Triggered Messages</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-3_Piggybacked_Messages"><span class="toc-number">1.2.3.</span> <span class="toc-text">4.2.1.3 Piggybacked Messages</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2_IP_header_and_IP_addresses"><span class="toc-number">1.3.</span> <span class="toc-text">4.2.2 IP header and IP addresses</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-1_Initial_Messages"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.2.2.1 Initial Messages</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-2_Triggered_Messages"><span class="toc-number">1.3.2.</span> <span class="toc-text">4.2.2.2 Triggered Messages</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-3_Piggybacked_Messages"><span class="toc-number">1.3.3.</span> <span class="toc-text">4.2.2.3 Piggybacked Messages</span></a></li></ol></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#5-_GTP_Header_for_Control_Plane"><span class="toc-number"></span> <span class="toc-text">5. GTP Header for Control Plane</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1_General_format"><span class="toc-number">1.</span> <span class="toc-text">5.1 General format</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2_Control_Plane_GTP_Extension_Header"><span class="toc-number">2.</span> <span class="toc-text">5.2 Control Plane GTP Extension Header</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3_对于Echo_和Version等不被支持的消息的GTP-C的头部"><span class="toc-number">3.</span> <span class="toc-text">5.3 对于Echo 和Version等不被支持的消息的GTP-C的头部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4_EPC指定的GTP-C头部"><span class="toc-number">4.</span> <span class="toc-text">5.4 EPC指定的GTP-C头部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5_GTPv2-C头部的用法"><span class="toc-number">5.</span> <span class="toc-text">5.5 GTPv2-C头部的用法</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-17-1_Delete_Bearer_Command"><span class="toc-number">5.0.1.</span> <span class="toc-text">7.2.17.1 Delete Bearer Command</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-22_Release_Access_Bearers_Response"><span class="toc-number">5.1.</span> <span class="toc-text">7.2.22 Release Access Bearers Response</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#信息元"><span class="toc-number">6.</span> <span class="toc-text">信息元</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#信息元格式"><span class="toc-number">6.1.</span> <span class="toc-text">信息元格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#信息元组"><span class="toc-number">6.2.</span> <span class="toc-text">信息元组</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#TODO"><span class="toc-number"></span> <span class="toc-text">TODO</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#采集点"><span class="toc-number">1.</span> <span class="toc-text">采集点</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#s11"><span class="toc-number">1.1.</span> <span class="toc-text">s11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#s5/s8"><span class="toc-number">1.2.</span> <span class="toc-text">s5/s8</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#SGSN_-_S-GW(Direct_Tunnel)"><span class="toc-number">2.</span> <span class="toc-text">SGSN - S-GW(Direct Tunnel)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Default_bearers_are_created_on_a_per_PDN_basis"><span class="toc-number">3.</span> <span class="toc-text">Default bearers are created on a per PDN basis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#APN_-_PDN"><span class="toc-number">4.</span> <span class="toc-text">APN - PDN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#s5/s8区别"><span class="toc-number">5.</span> <span class="toc-text">s5/s8区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TAU过程，S-GW不改变时，modify_bearer_request的中携带信令teid/key信息？"><span class="toc-number">6.</span> <span class="toc-text">TAU过程，S-GW不改变时，modify bearer request的中携带信令teid/key信息？</span></a></li></ol>
+		</div>
+		
+		<h2 id="3G">3G</h2>
+<p>先引入现用WCDMA R99版本网络结构作为切入点。</p>
+<p>移动通信息系统包含接入网(RAN)和核心网(CN)。</p>
+<p><img src="/image/wcdma-r99-all.jpeg" alt="R99-Arch-all"></p>
+<p>在WCDMA-R99核心网中包含CS域，PS域。</p>
+<p><img src="/image/wcdma-r99.jpeg" alt="R99-Arch-CN"></p>
+<p>UMTS：3G技术统称之为UMTS(Universal Mobile Telecommunications System)，意即通用移动通信系统。</p>
+<p>UTRAN：UMTS Terrestrial Radio Access Network-UMTS陆地无线接入网</p>
+<p>WCDMA的解释: 宽带码分多址，是一种第三代无线通讯技术，是种由3GPP具体制定的。</p>
+<p>核心网: 基于GSM MAP核心网</p>
+<p>接入网：UTRAN（UMTS陆地无线接入网）为无线接口的第三代移动通信系统。</p>
+<h2 id="2-2-75G">2-2.75G</h2>
+<p>GSM(2G)：全球移动通信系统Global System for Mobile communication.GSM 较之它以前的标准最大的不同是它的信令和语音信道都是数字式的，因此GSM被看作是第二代 (2G)移动电话系统。</p>
+<p>GPRS(2.5G)：通用分组无线业务（General Packet Radio Service，GPRS）是GSM移动电话用户可用的一种移动数据业务。有说法是GSM的延续，应该是基于GSM网络提供移动分组数据服务。</p>
+<p>EDGE(2.75G)：GSM增强数据率演进（Enhanced Data rates for GSM Evolution，EDGE）。EDGE(或EGPRS)是GPRS的直接演进。它重用GPRS的相同概念并基于GPRS的相同架构，所以EDGE的引入不会影响GPRS核心网，主要的变动都位于无线接口。</p>
+<p>接入网: GERAN,包括基站(base stations)和基站控制器(base station controllers)以及它们的接口(Ater接口、Abis接口、A 接口等)。</p>
+<p>核心网：GPRS骨干网。</p>
+<h2 id="4G">4G</h2>
+<p>接入网： E-UTRAN是演进的陆地无线接入网，就是lte阶段的接入网了。(TS36.300) </p>
+<p>核心网：EPC，Evolved Packet Core，演进分组核心网。(TS23.401)</p>
+<blockquote>
+<p>EPC没有了CS域，不能原生支持语音业务</p>
+</blockquote>
+<h3 id="网元">网元</h3>
+<h4 id="手机">手机</h4>
+<ul>
+<li><p>UE: User Equipment</p>
+</li>
+<li><p>MS: Mobile Station 移动台</p>
+</li>
+</ul>
+<h4 id="基站">基站</h4>
+<h5 id="BTS_-&gt;_BSC/PCU">BTS -&gt; BSC/PCU</h5>
+<ul>
+<li><p>BTS：base transceiver statios，基站</p>
+</li>
+<li><p>BSC：base stations controller，基站控制器</p>
+</li>
+<li><p>BSS：base stations subsystem，基站子系统</p>
+</li>
+</ul>
+<h5 id="Node_B_-&gt;_RNC">Node B -&gt; RNC</h5>
+<ul>
+<li><p>Node B：is a term used in UMTS equivalent to the BTS (base transceiver station) description used in GSM</p>
+</li>
+<li><p>RNC：无线网络控制器</p>
+</li>
+</ul>
+<h5 id="ENodeB">ENodeB</h5>
+<p>ENB：E-UTRAN Node B</p>
+<h5 id="4G网元(核心网节点/服务设备)">4G网元(核心网节点/服务设备)</h5>
+<ul>
+<li><p>MME：Mobility Management Entity,是LTE接入的控制节点</p>
+</li>
+<li><p>S-GW：Serving GateWay，路由转发用户数据分组，也作为ENB间切换/LTE与其他网络切换的锚点</p>
+</li>
+<li><p>P-GW：PDN GateWay，作为UE访问其他分组数据网络的出入点</p>
+</li>
+<li><p>HSS：Home Subscriber Server，用户归属服务器，包含用户相关的信息和增值信息</p>
+</li>
+</ul>
+<hr>
+<h1 id="EPS">EPS</h1>
+<h2 id="名词解释">名词解释</h2>
+<ul>
+<li><p>EPS    演进分组系统</p>
+</li>
+<li><p>EPC    Evolved Packet Core，演进分组核心网</p>
+</li>
+<li><p>E-UTRAN    Evolved Universal Terrestrial Radio Access Network，无线侧</p>
+</li>
+<li><p>LTE    Long Term Evolution = EUTRAN</p>
+</li>
+<li><p>PDN    分组数据网络</p>
+</li>
+<li><p>ISR    ISR(Idle State Signaling Reduction)空闲状态下信令缩减机制</p>
+</li>
+<li><p>RAT    Radio Access Technologies,就是无线接入技术的意思,通过相关信令可以看出来,一般包括了2G、2.75G、3G、WLAN等等,LTE中的对应的是E-UTRAN </p>
+</li>
+<li><p>NAS    Non Access Stratum 非接入层面协议</p>
+</li>
+</ul>
+<h2 id="关心的流程">关心的流程</h2>
+<ul>
+<li><p>IP地址分配</p>
+</li>
+<li><p>附着过程</p>
+</li>
+<li><p>TAU        分带业务和不带业务的，待业务的一般作为切换的后续步骤，关注切换即可</p>
+</li>
+<li><p>服务请求</p>
+</li>
+<li><p>去附着</p>
+</li>
+<li><p>会话管理</p>
+</li>
+<li><p>切换</p>
+</li>
+</ul>
+<h2 id="PDN连接">PDN连接</h2>
+<ul>
+<li>PDN连接指在UE与一个PLMN外部分组数据网路（PDN）之间，EPS系统提供的IP连接，一个PDN连接可包含多个EPS承载</li>
+</ul>
+<h2 id="跟踪区TA">跟踪区TA</h2>
+<p>TA tracking area，跟踪区，是LTE中新设立的概念。</p>
+<ul>
+<li><p>跟踪区是LTE/SAE系统的为UE的位置管理新设立的概念</p>
+</li>
+<li><p>跟踪区设计要求：</p>
+<ul>
+<li><p>对于LTE的接入网和核心网保持相同的位置区域的概念</p>
+</li>
+<li><p>当UE处于空闲状态时，核心网能够知道UE所在的跟踪区</p>
+</li>
+<li><p>当处于空闲状态的UE需要被寻呼时，必须在UE所注册的跟踪区的所有小区进行寻呼</p>
+</li>
+<li><p>在LTE系统中应尽量减少因位置改变而引起的位置更新信令</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="移动性管理">移动性管理</h2>
+<p>EPS Mobility Management：移动性管理</p>
+<ul>
+<li><p>EMM主要用于实现用户当前位置的跟踪，以及UE的切换、位置更新等移动性管理，共有两个状态。</p>
+<ul>
+<li><p>EMM-Deregistered：MME没有UE的位置和路由信息；对于MME，UE不可达；部分UE的上下文仍可存储在UE和MME，这样可以避免在每次附着流程都运行AKA流程等。</p>
+</li>
+<li><p>EMM-Registered：UE在成功注册后进入此状态；UE可以使用EPS注册的业务，MME知道UE的位置信息；可执行TAU，周期性TAU、寻呼、业务请求</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>                附着接收、<span class="type">UE</span>从<span class="type">UTRAN</span>/<span class="type">GERAN</span>选择<span class="type">E</span>-<span class="type">UTRAN</span>的<span class="type">TAU</span>接受
+            <span class="comment">--------------------------------------------------&gt;</span>
+<span class="type">Deregistered</span>                                                        <span class="type">EMM</span>-<span class="type">Registered</span>
+            &lt;-<span class="comment">-------------------------------------------------</span>
+                去附着、附着拒绝、<span class="type">TAU</span>拒绝、所有承载去激活    
+</code></pre><ul>
+<li><p>移动性包括空闲状态下的移动性和连接状态下的移动性</p>
+</li>
+<li><p>小区选择、重选属于空闲状态下的移动性。基本沿用UTMS系统的原则，仅修改了测量属性、小区选择/重选的准则等。PLMN选择的原则基于UMTS的PLMN选择原则。</p>
+</li>
+<li><p>切换属于连接状态下的移动</p>
+</li>
+</ul>
+<h3 id="TAU">TAU</h3>
+<p>TAU过程与HO过程：HO做的是数据面的切换，是在MME控制下，ENB与SGW之间数据通道(GTPU)的切换，HO过程可能有TAU过程发生(到达一个新的TA，且不同的TA list中)。</p>
+<p>TAU过程：只是更新UE位置等信息到MME。触发条件：</p>
+<ul>
+<li><p>UE detects it has entered a new TA that is not in the list of TAIs that the UE registered with the network (except for the case of a UE configured to perform Attach with IMSI when entering a TA in a new non-equivalent PLMN in RRC-IDLE mode);</p>
+</li>
+<li><p>the periodic TA update timer has expired;</p>
+</li>
+<li><p>UE was in UTRAN PMM_Connected state (e.g. URA_PCH) when it reselects to E- UTRAN;</p>
+</li>
+<li><p>UE was in GPRS READY state when it reselects to E- UTRAN;</p>
+</li>
+<li><p>the TIN indicates “P-TMSI” when the UE reselects to E-UTRAN (e.g. due to bearer configuration modifications performed on GERAN/UTRAN);</p>
+</li>
+<li><p>the RRC connection was released with release cause “load re-balancing TAU required”;</p>
+</li>
+<li><p>the RRC layer in the UE informs the UE’s NAS layer that an RRC connection failure (in either E-UTRAN or UTRAN) has occurred;</p>
+</li>
+<li><p>a change of the UE Network Capability and/or MS Network Capability and/or UE Specific DRX Parameters and/or TS 24.008 [47] MS Radio Access capability (e.g. due to GERAN radio capability change or CDMA 2000 Radio Access Technology Capability change) information of the UE.</p>
+</li>
+<li><p>for a UE supporting CS fallback, or configured to support IMS voice, or both, a change of the UE’s usage setting or voice domain preference for E-UTRAN.</p>
+</li>
+<li><p>for a SR-VCC capable UE, a change of MS Classmark 2 and/or MS Classmark 3 and/or Supported Codecs.</p>
+</li>
+<li><p>UE manually selects a CSG cell whose CSG ID and associated PLMN is absent from both the UE’s Allowed CSG list and the UE’s Operator CSG list.</p>
+</li>
+<li><p>UE receives a paging request from the MME while the Mobility Management back off timer is running and the UE’s TIN indicates “P-TMSI”.</p>
+</li>
+</ul>
+<h2 id="连接管理">连接管理</h2>
+<ul>
+<li><p>ECM: EPS connection manangerment，ECM主要用于UE和EPC之间的信令连接管理，共有两个状态</p>
+<ul>
+<li><p>ECM-IDLE：UE和EPC之间没有S1-MME和S1-U连接存在;E-UTRAN没有用户的上下文信息;UE和网络间的状态可能不同步</p>
+</li>
+<li><p>ECM-CONNECTED: UE和MME间存在信令连接，包括RRC连接和S1-MME连接；MME精确知道UE所出的eNBID信息</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="承载管理">承载管理</h2>
+<ul>
+<li><p>EPS Bearer类似于2/3G网络中的PDP上下文</p>
+</li>
+<li><p>可以看作是UE与P-GW之间的逻辑电路</p>
+</li>
+<li><p>EPS Bearer：无线承载 - S1承载 - S5/S8承载</p>
+</li>
+<li><p>网络中通过Bearer ID用来唯一标识UE接入到E-UTRAN的一个EPS Bearer，Bearer ID由MME分配</p>
+</li>
+</ul>
+<ol>
+<li><p>Default Bearer(默认承载)</p>
+<ul>
+<li><p>Default Bearer在用户attach时建立，保证用户在开始业务时具有更短的时延</p>
+</li>
+<li><p>每个PDN连接有一个Default Bearer，提供基本的连接服务</p>
+</li>
+<li><p>Default Bearer位PDN连接提供Always-on服务，存活于PDN连接的整个声明周期</p>
+</li>
+<li><p>Default Bearer是Non-GBR（Non-Guaranteed Bit Rate）类型的承载</p>
+</li>
+<li><p>Default Bearer的Qos参数由MME/SGSN根据HLR/HSS的签约参数分配，P-GW可根据PCRF信息修改该参数</p>
+</li>
+<li><p>Default Bearer通常情况下是一个<code>Match All</code>的承载，即没有TFT</p>
+</li>
+</ul>
+</li>
+<li><p>Dedicated Bearer(专用承载)</p>
+<ul>
+<li><p>当需要为一个用户接入相同PDN网络的不同数据流提供不同的QoS服务保证时，需要建立Dedicated Bearer来承载不同的数据流</p>
+</li>
+<li><p>Dedicated Bearer可以是Non-GBR或GBR类型的承载</p>
+</li>
+<li><p>Dedicated Bearer的创建或修改只能有网络侧发起，并且承载级QoS参数值总由分组核心网分分配</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="E-UTRAN初始化附着">E-UTRAN初始化附着</h2>
+<iframe src="/image/attach.svg"> </iframe>
+
+<ul>
+<li><p>基本概念：UE进行实际业务之前在网络中的注册过程，称为网络附着。</p>
+</li>
+<li><p>主要工作：UE附着过程中，EPS网络完成的主要工作如下：</p>
+<ol>
+<li><p>UE与MME建立MM上下文</p>
+</li>
+<li><p>UE与MME的EMM状态变为EMM-REGISTERED</p>
+</li>
+<li><p>MME为UE建立默认承载</p>
+</li>
+<li><p>UE获得网络侧分配的IP地址</p>
+</li>
+<li><p>用户可以不携带APN，当用户不携带时，选择HSS签约的默认APN</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="初始附着通过IMSI进行附着">初始附着通过IMSI进行附着</h3>
+<ol>
+<li><p>UE通过eNodeB把一些必要信息发送到MME</p>
+</li>
+<li><p>MME与HSS完成认证/身份识别</p>
+</li>
+<li><p>MME再向SGW为UE创建会话，期间完成SGW-U信息指定</p>
+</li>
+<li><p>MME通知UE附着成功，告知GUTI信息，还要求UE完成S1承载的配置（包含SGW-U的信息）</p>
+</li>
+<li><p>UE发送附着完成消息，对GUTI进行确认，同时对缺省承载进行确认（eNB对S1-U的用户面TEID和IP地址进行了分配，通过S1AP协议报告给MME）</p>
+</li>
+<li><p>MME再把通过Modify Beaer Request消息更新Bearer的用户信息（包括S1-U eNB GTP-U的TEID和IP地址）</p>
+</li>
+</ol>
+<h3 id="通过GUTI进行附着">通过GUTI进行附着</h3>
+<p>GUTI附着：防止MS欺骗,GUTI，Globally Unique Temporary UE Identity，全球唯一临时UE标识。</p>
+<p>在Create Session/Modify Beaer/Create Beaer消息中没有此信息元，应该是新MME完成了IMSI的获取。</p>
+<h2 id="服务请求">服务请求</h2>
+<h3 id="UE发起">UE发起</h3>
+<ul>
+<li><p>主要目的：是当用户已经在核心网中注册，且处于空闲状态时，建立无线接入网各接口的信令连接，并将UE和MME的状态从ECM-IDLE迁移到ECM-CONNECTED状态</p>
+</li>
+<li><p>在3G系统中，服务请求过程用于建立Iu连接，与之对应，在EPS系统中，该过程用于建立S1连接</p>
+</li>
+<li><p>ECM-IDLE状态下，UE发起服务请求给MME，或作为寻呼响应，或用于UE重新获得无先覆盖信号的场景</p>
+</li>
+</ul>
+<h3 id="网络侧发起">网络侧发起</h3>
+<ul>
+<li>当S-GW接收到网络侧发给处于ECM-IDLE状态的UE的下行数据时，S-GW将发送一条下行数据通知消息给MME，以触发MME寻呼UE，开始UE发起的服务请求过程</li>
+</ul>
+<h2 id="5-5_Handover">5.5 Handover</h2>
+<h3 id="5-5-1_Intra-E-UTRAN_handover">5.5.1 Intra-E-UTRAN handover</h3>
+<h4 id="5-5-1-1_X2-based_handover">5.5.1.1 X2-based handover</h4>
+<p>这些过程是使用X2来把源eNB切换到目的eNB，这些过程中MME是没有改变的。这两个过程的区别是S-GW是否改变了/重分配了。涉及接口包括：源/目的eNB，源/目的MME-eNB的S1-MME。</p>
+<p><em>作为切换执行阶段的一部分，下行数据/可选部分上行数据通过源eNB到目的eNB进行转发。当UE已经到达目的eNB，下行数据通过源eNB被转发给它。来自UE的上行数据可以通过源S-GW到P-GW转发或者选择源eNB到目的eNB进行转发。仅仅切换完成阶段会被S-GW的改变影响，切换准备和切换执行阶段是一样的。</em></p>
+<p>在切换过程中，如果MME检测到S-GW需要被重分配，MME将会拒绝任何来自P-GW的初始化EPS承载的请求，并且会发送一个临时的拒绝通知，原由是切换过程，拒绝通知通过S-GW发送给P-GW。</p>
+<ul>
+<li><p>X2-based handover without Serving GW reloaction UE从源eNB到目的eNB，MME没有改变，而且新MME决定S-GW不重分配，在S11接口只有Modify Bearer消息。</p>
+</li>
+<li><p>X2-based handover with Serving GW reloacation UE从源eNM到目的eNB，MME改变，但是MME确定重新分配S-GW。这里源S-GW与源eNB、源S-GW与目的eNB还有目的S-GW与目的eNB之间有IP连接。如果源S-GW与目的eNB之间没有连接，那么将是S1-based的切换。</p>
+<ol>
+<li><p>目的eNB发送一个Path Switch Request Message给MME，通知UE已经改变cell</p>
+</li>
+<li><p>MME发送一Create Session Request给目的S-GW，包含eNB已经接受的默认承载上下文。如果PDN连接的默认承载没被eNB接受，MME将认为这个PDN连接的所有承载都是失败的，而且触发MME释放PDN连接的过程。</p>
+</li>
+<li><p>目的S-GW分配下行数据的TEID和地址，发送Modify Bearer Request告知G-SW下行的S-GW数据面的TEID和地址，还包括用户位置信息/时区等，如果step2中出现了。$P-GW会发送Response，包含MSISDNS等内容$ 为什么会包含这些内容，确定是必出现的？用于提取用户信息。</p>
+</li>
+<li><p>目的S-GW发送Create Session Response给MME。MME启动一个定时器，用于第7步。</p>
+</li>
+<li><p>MME发送路径切换确认消息给目的eNB。</p>
+</li>
+<li><p>通过发送Release Resource，目的eNB告知旧eNB切换成功，并且触发资源释放。</p>
+</li>
+<li><p>当第4步中定时器到时间了，源MME向源S-GW发送一个删除会话的请求。 $就是说新旧会话会同时存在一段时间$</p>
+</li>
+<li><p>UE可能发起一个TAU的过程。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="5-5-1-2_S1-based_handover">5.5.1.2 S1-based handover</h4>
+<p>当X2不可用时使用S1切换。源eNB初始化一个切换，通过发送Handover Required message在S1-MME接口上。这个切换过程可能重分配MME/S-GW。源MME选择目的MME，一般不会切换MME除非UE离开MME POOL区域。新MME决定S-GW是否需要重分配。</p>
+<p>源eNB决定EPS的那个承载用于转发downlink数据（从源eNB到目的eNB），uplink的转发是可选择的。EPC不会改变RAN的决定。报文直接转发发生在源/目的eNB之间，也可以间接通过源/目的GW(也可能S-GW没有重分配，只是通过单个S-GW)再在eNB之间转发。</p>
+<p>直接转发路径是否可以是由源eNB决定的，而且在源MME中指明。</p>
+<p>如果直接转发路径不可用，间接转发可能会用到。源MME根据来自源eNB的指示，决定是否应用间接转发。源MME告知目的MME是否使用间接转发。</p>
+<ol>
+<li><p>源eNB决定初始化一个S1-based切换到目的eNB。这会因为没有一个X2连接到目的eNB。</p>
+</li>
+<li><p>源eNB会发送一个Handover Required到源MME。</p>
+</li>
+<li><p>源MME发送Forward Relocation Request到目的MME。</p>
+</li>
+<li><p>如果MME已经被重分配，目的MME判断是否S-GW需要重新分配。如果S-GW不重分配，这一步不做任何事情，目的S-GW就是源S-GW。 如果S-GW重分配了，目的MME发送Create Session Request给目的S-GW，目的S-GW发送Create Session Response给目的MME。</p>
+</li>
+<li><p>目的MME发送Handover Request给目的eNB。这个消息创建UE上下文，包含有关承载的信息(上行的TEID和S-GW的地址)，和安全上下文。 目的eNB发送一个Handover Request Acknowledge(包含承载列表，承载失败设置列表)给目的MME。设置列表包含S1-U的地址和TEID的列表，还有用于接收的转发数据的地址和TEID列表。 如果没有承载被目的eNB接收，目的MME将拒绝切换。</p>
+</li>
+<li><p>如果使用间接转发数据，而且S-GW重分配了，目的MME通过Create Indirect Data Forwarding Tunnel Request给S-GW发送<code>转发参数</code>。S-GW发送Create Indirect Data Forwarding Tunnel Response给目的MME。如果S-GW没有被重分配，间接转发可能在第8步中设置。 </p>
+</li>
+<li><p>如果MME已经被重分配，目的MME发送一个Forward Reloaction Response消息给源MME。为了间接转发，这个消息包含S-GW地址和TEID用于间接转发。</p>
+</li>
+<li><p><em>S-GW没有重分配的情况，间接转发数据</em> 如果使用间接转发数据，源MME发送Create Indirect Data Forwarding Tunnel Request给S-GW。 S-GW通过Creat Indirect Data Forwarding Tunnel Response响应给源MME。</p>
+</li>
+<li><p>源MME发送Handover Command，用于指明用于转发数据的承载，和需要释放的承载。 9a. Handvoer Command重构之后发给UE，UE将删除在目的cell不用的承载。</p>
+</li>
+<li><p>源eNB通过MME发送eNB状态转发信息给目的eNB，告知PDCP和HFN的状态。 如果MME重分配，源MME将通过Forward Access Context Notificatin消息给目的MME，MME或者目的MME将发送MME Status Transfer消息给目的eNB。</p>
+</li>
+<li><p>源eNB将开始转发下行数据，直接转发11a/间接转发11b。</p>
+</li>
+<li><p>当UE成功的同步到目标CELL，UE发送Handover Confirm消息给目的eNB。从源eNB转发的下行数据可以被发送给UE。而且，上行数据可以从UE发送，将被直接发给目的S-GW，继而是P-GW。</p>
+</li>
+<li><p>目的eNB发送一个Handover通知消息给目的MME。</p>
+</li>
+<li><p>如果MME重分配，目的MME发送一个Forward Relocation Complete Notification给源MME。源MME发送Forward Relocation Complete Acknowledge消息给目的MME。不管MME是否重分配，源MME将开始一个定时器用于是源S-GW上的资源。 一旦收到Forward Reloaction Complete Acknowledge消息，如果目的MME分配了S-GW资源用于间接转发，目的MME将开始一个定时器用于释放此资源。</p>
+</li>
+<li><p>MME发送Modify Bearer Request。 Modify Access Bearers Request过程用于优化信令。 MME释放不被接受的专用承载 $5.4.4.2$。如果PDN的默认承载没有被目的eNB接受，MME将认为这个PDN的所有承载没有被接受，MME将释放这些PDN连接，通过除法MME请求的PDN断开连接请求 $5.10.3$。</p>
+</li>
+<li><p>如果S-GW重分配，目的S-GW将为P-GW分配下行的地址和TEID（one per bearer)。 P-GW将发送“end marker”在旧的路径上，源S-GW将转发“end marked”到源eNB。</p>
+</li>
+<li><p>S-GW发送Modify Bearer Response给MME。</p>
+</li>
+<li><p>UE发起TAU过程，当满足TAU条件。</p>
+</li>
+<li><p>当14步的定时器超时，源MME发送UE Context Release Command消息给源eNB。源eNB释放资源，回应UE Context Release Complete消息。EPS将发送Delete Session Request(Cause,LBI,Operation Indication)消息给源S-GW，如果operation Inication没有设置，则指示源S-GW不要发起一个删除过程到P-GW。</p>
+</li>
+<li><p>如果使用间接转发，14步的定时器超时时，将除法源MME发送Delete Indirect Data Forwarding Tunnel Request消息给S-GW释放在第8步中分配的用于转发数据的临时资源。</p>
+</li>
+<li><p>如果使用间接转发，而且S-GW重分配了，14步开始的目的MME定时器超时时，将触发目的MME发送一个Delete Indirect Data Forwarding Tunnel Request消息给目的S-GW去释放在第6中分配的用于转发数据的临时资源。</p>
+</li>
+</ol>
+<h3 id="5-5-2_Inter_RAT_handover">5.5.2 Inter RAT handover</h3>
+<ul>
+<li><p>切换到UTRAN系统</p>
+</li>
+<li><p>切换到GERAN系统</p>
+</li>
+</ul>
+<h1 id="GTPV2">GTPV2</h1>
+<p>一个GTP隧道由一个TEID，一个ip地址和一个udp端口号标识。</p>
+<h2 id="4-2_Protocol_stack">4.2 Protocol stack</h2>
+<h3 id="4-2-0_General">4.2.0 General</h3>
+<p>一个消息可以是Initail message,Triggered message,或者Triggered Replay message to Triggered message.</p>
+<ul>
+<li><p>Inital message，发送实体选择一个序列号发向GTP对端实体的消息</p>
+</li>
+<li><p>Triggered message，Inital message的回应</p>
+</li>
+<li><p>Triggered Replay message，Triggered message的回应</p>
+</li>
+</ul>
+<p>通常Request message是一个Inital message，但是Request message也可以是一个Triggered message，当它被一个初始化命令消息触发时。</p>
+<p>Piggybacking是可选的。</p>
+<h3 id="4-2-1_UDP_header_and_port_numbers">4.2.1 UDP header and port numbers</h3>
+<h4 id="4-2-1-1_Initial_Messages">4.2.1.1 Initial Messages</h4>
+<p>目的端口应该是2123.</p>
+<p>源端口是发送GTP实体本地分配的。如果GTPv2 GTP’v2模块使用同一个ip地址发送消息，应该保证源端口是不一样的。否则，ip层无法分发响应消息到正确的协议实体。</p>
+<h4 id="4-2-1-2_Triggered_Messages">4.2.1.2 Triggered Messages</h4>
+<p>目的/源端口应该是相应消息的源/目的端口，除了在使用SGSN池的场景。</p>
+<p>在SGSN池场景，如果认证请求，上下文请求，或者挂起通知消息被另外一个池中的SGSN转发，认证响应，上下文响应或者挂起告之消息的UDP目的端口将有下面叙述的方式决定。</p>
+<p>目的端口：copy信息元素-IE <code>UDP Source Port Number</code>（在相应的被转发的请求中）到UDP目的端口域。</p>
+<p>源端口：发送端GTP实体本读分配。</p>
+<h4 id="4-2-1-3_Piggybacked_Messages">4.2.1.3 Piggybacked Messages</h4>
+<p>Piggybacked initial message是作为triggered reponse的串联发送的，他们共用同一个UDP头部。</p>
+<p>| IP header | UDP header | Triggered response message(P=1) | Piggybacked initial message(P=0) |</p>
+<h3 id="4-2-2_IP_header_and_IP_addresses">4.2.2 IP header and IP addresses</h3>
+<h4 id="4-2-2-1_Initial_Messages">4.2.2.1 Initial Messages</h4>
+<p>在网络服务恢复的过程中，如果一个MME/S4-SGSN发送了一个下行数据通知失败的指示消息给SGW，那么这个消息的目的IP地址将是SGW的地址，这个地址出现在下行数据通知消息中的F-TEID，或者之前下行通知消息的源地址。</p>
+<h4 id="4-2-2-2_Triggered_Messages">4.2.2.2 Triggered Messages</h4>
+<p>目的/源地址应该是相应消息的源/目的地址，除了在使用SGSN池的场景。</p>
+<p>在SGSN池场景，如果认证请求，上下文请求，或者挂起通知消息被另外一个池中的SGSN转发，认证请求，上下文请求，挂起告知消息的IP源地址将由本地发送GTP实体分配。目的地址将有下列方式决定：在请求/通知消息中的信息元<code>Address for Control Plane</code>中，或者在信息元<code>S3/S16/S10 Address and TEID for Control Plane</code>中。</p>
+<h4 id="4-2-2-3_Piggybacked_Messages">4.2.2.3 Piggybacked Messages</h4>
+<p>和Triggered response message共用同一个IP头部。</p>
+<h1 id="5-_GTP_Header_for_Control_Plane">5. GTP Header for Control Plane</h1>
+<h2 id="5-1_General_format">5.1 General format</h2>
+<h2 id="5-2_Control_Plane_GTP_Extension_Header">5.2 Control Plane GTP Extension Header</h2>
+<p>原始的扩展头机制不再使用了，在GTP v2版本中。将来的扩展将通过在消息体中增加IE的方式实现。</p>
+<h2 id="5-3_对于Echo_和Version等不被支持的消息的GTP-C的头部">5.3 对于Echo 和Version等不被支持的消息的GTP-C的头部</h2>
+<ul>
+<li><p>不包含TEID（T=0）</p>
+</li>
+<li><p>序号是任意值，而且应该被忽略，以一个空白字节结束</p>
+</li>
+</ul>
+<h2 id="5-4_EPC指定的GTP-C头部">5.4 EPC指定的GTP-C头部</h2>
+<ul>
+<li><p>包含TEID（T=1）</p>
+</li>
+<li><p>包含正确的序号，以一个空白字节结束</p>
+</li>
+</ul>
+<h2 id="5-5_GTPv2-C头部的用法">5.5 GTPv2-C头部的用法</h2>
+<ul>
+<li>Bit 5  是<code>P</code> 标志。piggybacked message自身的<code>P</code>标志将是0。如果一个<code>Create Session Response message</code>的<code>P</code>标志置位，那么这个piggybacked message将是<code>Create Bearer Requst</code>；<code>Create Bearer Response</code> —- <code>P</code> —- <code>Modify Bearer Request</code>。</li>
+</ul>
+<blockquote>
+<p>只有当Create Session Response的P置位，Create Bearer Response的P才在同一个过程中置位。所有EPC指定的消息中，除了上面两个其他的P都被置成0。</p>
+</blockquote>
+<ul>
+<li>3-4 octets 是消息长度域。这个长度包括GTP-C头部的必有部分（开始4个字节），但是TEID/序号包含在内。</li>
+</ul>
+<h4 id="7-2-17-1_Delete_Bearer_Command">7.2.17.1 Delete Bearer Command</h4>
+<p><code>Delete Bearer Command</code>    MME发起的承载去激活 -&gt; <code>Delete Bearer Request</code></p>
+<p>eNB请求释放承载，或者MME发起的承载去活过程： MME -&gt; SGW -&gt; PGW</p>
+<p>MS/SGSN发起在S4接口上的承载去活过程：S4-SGSN -&gt; SGW -&gt; PGW</p>
+<h3 id="7-2-22_Release_Access_Bearers_Response">7.2.22 Release Access Bearers Response</h3>
+<p><em>如果S1接口的承载释放后，ECM状态切换ECM-IDLE，如果要和恢复的话，下行是发paging，上行的话UE要发起service request流程。该流程会重建S1承载。</em></p>
+<p>paging: <a href="http://www.gprshome.com/forum.php?mod=viewthread&amp;tid=2777" target="_blank" rel="external">http://www.gprshome.com/forum.php?mod=viewthread&amp;tid=2777</a></p>
+<p>paging寻呼，其实就是23401中网络侧发起的service request，通过触发UE请求服务，完成整个过程。</p>
+<h2 id="信息元">信息元</h2>
+<h3 id="信息元格式">信息元格式</h3>
+<h3 id="信息元组">信息元组</h3>
+<h1 id="TODO">TODO</h1>
+<h2 id="采集点">采集点</h2>
+<h3 id="s11">s11</h3>
+<h3 id="s5/s8">s5/s8</h3>
+<h2 id="SGSN_-_S-GW(Direct_Tunnel)">SGSN - S-GW(Direct Tunnel)</h2>
+<h2 id="Default_bearers_are_created_on_a_per_PDN_basis">Default bearers are created on a per PDN basis</h2>
+<h2 id="APN_-_PDN">APN - PDN</h2>
+<h2 id="s5/s8区别">s5/s8区别</h2>
+<p>本地P-GW，外地P-GW</p>
+<h2 id="TAU过程，S-GW不改变时，modify_bearer_request的中携带信令teid/key信息？">TAU过程，S-GW不改变时，modify bearer request的中携带信令teid/key信息？</h2>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/3gpp/">3gpp</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/07/11/lte/" data-title="lte | sqm&#39;s Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2014/07/08/lds/"  title="lds文件">
+ <strong>NEXT:</strong><br/> 
+ <span>lds文件
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#3G"><span class="toc-number">1.</span> <span class="toc-text">3G</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-75G"><span class="toc-number">2.</span> <span class="toc-text">2-2.75G</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4G"><span class="toc-number">3.</span> <span class="toc-text">4G</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#网元"><span class="toc-number">3.1.</span> <span class="toc-text">网元</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#手机"><span class="toc-number">3.1.1.</span> <span class="toc-text">手机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基站"><span class="toc-number">3.1.2.</span> <span class="toc-text">基站</span></a></li><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#BTS_-&gt;_BSC/PCU"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">BTS -&gt; BSC/PCU</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Node_B_-&gt;_RNC"><span class="toc-number">3.1.2.2.</span> <span class="toc-text">Node B -&gt; RNC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ENodeB"><span class="toc-number">3.1.2.3.</span> <span class="toc-text">ENodeB</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4G网元(核心网节点/服务设备)"><span class="toc-number">3.1.2.4.</span> <span class="toc-text">4G网元(核心网节点/服务设备)</span></a></li></ol></ol></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#EPS"><span class="toc-number"></span> <span class="toc-text">EPS</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#名词解释"><span class="toc-number">1.</span> <span class="toc-text">名词解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关心的流程"><span class="toc-number">2.</span> <span class="toc-text">关心的流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PDN连接"><span class="toc-number">3.</span> <span class="toc-text">PDN连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跟踪区TA"><span class="toc-number">4.</span> <span class="toc-text">跟踪区TA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#移动性管理"><span class="toc-number">5.</span> <span class="toc-text">移动性管理</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TAU"><span class="toc-number">5.1.</span> <span class="toc-text">TAU</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#连接管理"><span class="toc-number">6.</span> <span class="toc-text">连接管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#承载管理"><span class="toc-number">7.</span> <span class="toc-text">承载管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E-UTRAN初始化附着"><span class="toc-number">8.</span> <span class="toc-text">E-UTRAN初始化附着</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始附着通过IMSI进行附着"><span class="toc-number">8.1.</span> <span class="toc-text">初始附着通过IMSI进行附着</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过GUTI进行附着"><span class="toc-number">8.2.</span> <span class="toc-text">通过GUTI进行附着</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#服务请求"><span class="toc-number">9.</span> <span class="toc-text">服务请求</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UE发起"><span class="toc-number">9.1.</span> <span class="toc-text">UE发起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络侧发起"><span class="toc-number">9.2.</span> <span class="toc-text">网络侧发起</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5_Handover"><span class="toc-number">10.</span> <span class="toc-text">5.5 Handover</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-1_Intra-E-UTRAN_handover"><span class="toc-number">10.1.</span> <span class="toc-text">5.5.1 Intra-E-UTRAN handover</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-5-1-1_X2-based_handover"><span class="toc-number">10.1.1.</span> <span class="toc-text">5.5.1.1 X2-based handover</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-5-1-2_S1-based_handover"><span class="toc-number">10.1.2.</span> <span class="toc-text">5.5.1.2 S1-based handover</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-2_Inter_RAT_handover"><span class="toc-number">10.2.</span> <span class="toc-text">5.5.2 Inter RAT handover</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#GTPV2"><span class="toc-number"></span> <span class="toc-text">GTPV2</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2_Protocol_stack"><span class="toc-number">1.</span> <span class="toc-text">4.2 Protocol stack</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-0_General"><span class="toc-number">1.1.</span> <span class="toc-text">4.2.0 General</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1_UDP_header_and_port_numbers"><span class="toc-number">1.2.</span> <span class="toc-text">4.2.1 UDP header and port numbers</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-1_Initial_Messages"><span class="toc-number">1.2.1.</span> <span class="toc-text">4.2.1.1 Initial Messages</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-2_Triggered_Messages"><span class="toc-number">1.2.2.</span> <span class="toc-text">4.2.1.2 Triggered Messages</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-3_Piggybacked_Messages"><span class="toc-number">1.2.3.</span> <span class="toc-text">4.2.1.3 Piggybacked Messages</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2_IP_header_and_IP_addresses"><span class="toc-number">1.3.</span> <span class="toc-text">4.2.2 IP header and IP addresses</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-1_Initial_Messages"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.2.2.1 Initial Messages</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-2_Triggered_Messages"><span class="toc-number">1.3.2.</span> <span class="toc-text">4.2.2.2 Triggered Messages</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-3_Piggybacked_Messages"><span class="toc-number">1.3.3.</span> <span class="toc-text">4.2.2.3 Piggybacked Messages</span></a></li></ol></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#5-_GTP_Header_for_Control_Plane"><span class="toc-number"></span> <span class="toc-text">5. GTP Header for Control Plane</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1_General_format"><span class="toc-number">1.</span> <span class="toc-text">5.1 General format</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2_Control_Plane_GTP_Extension_Header"><span class="toc-number">2.</span> <span class="toc-text">5.2 Control Plane GTP Extension Header</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3_对于Echo_和Version等不被支持的消息的GTP-C的头部"><span class="toc-number">3.</span> <span class="toc-text">5.3 对于Echo 和Version等不被支持的消息的GTP-C的头部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4_EPC指定的GTP-C头部"><span class="toc-number">4.</span> <span class="toc-text">5.4 EPC指定的GTP-C头部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5_GTPv2-C头部的用法"><span class="toc-number">5.</span> <span class="toc-text">5.5 GTPv2-C头部的用法</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-17-1_Delete_Bearer_Command"><span class="toc-number">5.0.1.</span> <span class="toc-text">7.2.17.1 Delete Bearer Command</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-22_Release_Access_Bearers_Response"><span class="toc-number">5.1.</span> <span class="toc-text">7.2.22 Release Access Bearers Response</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#信息元"><span class="toc-number">6.</span> <span class="toc-text">信息元</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#信息元格式"><span class="toc-number">6.1.</span> <span class="toc-text">信息元格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#信息元组"><span class="toc-number">6.2.</span> <span class="toc-text">信息元组</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#TODO"><span class="toc-number"></span> <span class="toc-text">TODO</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#采集点"><span class="toc-number">1.</span> <span class="toc-text">采集点</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#s11"><span class="toc-number">1.1.</span> <span class="toc-text">s11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#s5/s8"><span class="toc-number">1.2.</span> <span class="toc-text">s5/s8</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#SGSN_-_S-GW(Direct_Tunnel)"><span class="toc-number">2.</span> <span class="toc-text">SGSN - S-GW(Direct Tunnel)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Default_bearers_are_created_on_a_per_PDN_basis"><span class="toc-number">3.</span> <span class="toc-text">Default bearers are created on a per PDN basis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#APN_-_PDN"><span class="toc-number">4.</span> <span class="toc-text">APN - PDN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#s5/s8区别"><span class="toc-number">5.</span> <span class="toc-text">s5/s8区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TAU过程，S-GW不改变时，modify_bearer_request的中携带信令teid/key信息？"><span class="toc-number">6.</span> <span class="toc-text">TAU过程，S-GW不改变时，modify bearer request的中携带信令teid/key信息？</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/3gpp/" title="3gpp">3gpp<sup>1</sup></a></li>
+		
+			<li><a href="/tags/life/" title="life">life<sup>1</sup></a></li>
+		
+			<li><a href="/tags/link/" title="link">link<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="SunQingmeng">SunQingmeng</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
