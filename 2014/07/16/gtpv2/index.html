@@ -80,7 +80,7 @@ PGW S5/S8/S2a/ F-TEID for PMIP based i">
     </p>
   <p class="article-time">
     <time datetime="2014-07-16T09:58:47.000Z" itemprop="datePublished">7月 16 2014</time>
-    更新日期:<time datetime="2014-07-16T10:50:52.000Z" itemprop="dateModified">7月 16 2014</time>
+    更新日期:<time datetime="2014-08-01T10:11:52.000Z" itemprop="dateModified">8月 1 2014</time>
     
   </p>
 </header>
@@ -303,6 +303,15 @@ PGW S5/S8/S2a/ F-TEID for PMIP based i">
 	Delete Bearer Command   -------	Delete Bearer Request
 </pre></td></tr></table></figure>
 
+<p>session消息也会包含关于bearer的信息:</p>
+<ul>
+<li><p>初始附着，只有默认承载，create session response会包含SGW-U/PGW-U的信息，eNB收到attach accept后分配S1-U信息，通过Modfiy bearer request对默认承载确认。在Modify Bearer response中就不包含PGW-U的信息了，但可能包含SGW-U信息。可以认为在初始附着中，create session response与Modify Bearer request是默认承载的创建信令。</p>
+</li>
+<li><p>SGW重选的切换或TAU，会在create session request中包含要创建的上下文，response中包含创建了的承载上下文。说明SGW是根据此信息进行了承载的创建，但不确定是新的还是旧的eNB的承载消息。</p>
+</li>
+</ul>
+<p>bearer信令中更新session信息的情景：</p>
+<p>在SGW不重选情形中，左侧的控制信息可能通过Modify Bearer Request信息进行修改，造成了左侧信息单方面的更新。</p>
 <h1 id="8_GTP-C_Information_Elements">8 GTP-C Information Elements</h1>
 <h2 id="8-21_Fully_Qulified_TEID(F-TEID)">8.21 Fully Qulified TEID(F-TEID)</h2>
 <ol>
