@@ -4,14 +4,13 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>bootloader 卡壳 | sqm&#39;s Blog</title>
+    <title>boot bus on octeon | sqm&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="SunQingmeng">
     
-    <meta name="description" content="寄存器，协寄存器功能已经一点点搞清楚了，但是又卡到链接器上。GOT符号意义，gp寄存器作用，ld链接器又对这些是怎么处理的，elf文件加载的时候又做了什么刚觉又迷惑了，知道的太少。
-想继续啃代码下去，附带看些他人的理解和书籍，要不然纯理论的东西肯定又消化不良，没有直观的感觉。。。
-继续吧，自勉！！！">
+    <meta name="description" content="概览
+boot bus 用途：The boot bus hardware provides a general-purpose bus that typically attaches to novolatile devices, like flash memories(both NOR and NA">
     
     
     
@@ -68,15 +67,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/07/24/bootloader学习卡壳/" title="bootloader 卡壳" itemprop="url">bootloader 卡壳</a>
+      <a href="/2014/08/03/boot_bus/" title="boot bus on octeon" itemprop="url">boot bus on octeon</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://yoursite.com" title="SunQingmeng">SunQingmeng</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-07-24T07:01:37.000Z" itemprop="datePublished">7月 24 2014</time>
-    更新日期:<time datetime="2014-07-24T07:05:03.000Z" itemprop="dateModified">7月 24 2014</time>
+    <time datetime="2014-08-03T06:14:10.000Z" itemprop="datePublished">8月 3 2014</time>
+    更新日期:<time datetime="2014-08-04T03:28:46.000Z" itemprop="dateModified">8月 4 2014</time>
     
   </p>
 </header>
@@ -85,19 +84,72 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概览"><span class="toc-number">1.</span> <span class="toc-text">概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址"><span class="toc-number">2.</span> <span class="toc-text">地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址匹配和区域"><span class="toc-number">3.</span> <span class="toc-text">地址匹配和区域</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#本地内存区域"><span class="toc-number">3.1.</span> <span class="toc-text">本地内存区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总线区域"><span class="toc-number">3.2.</span> <span class="toc-text">总线区域</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#重置配置和启动"><span class="toc-number">4.</span> <span class="toc-text">重置配置和启动</span></a></li></ol>
 		</div>
 		
-		<p>寄存器，协寄存器功能已经一点点搞清楚了，但是又卡到链接器上。GOT符号意义，gp寄存器作用，ld链接器又对这些是怎么处理的，elf文件加载的时候又做了什么刚觉又迷惑了，知道的太少。</p>
-<p>想继续啃代码下去，附带看些他人的理解和书籍，要不然纯理论的东西肯定又消化不良，没有直观的感觉。。。</p>
-<p>继续吧，自勉！！！</p>
+		<h2 id="概览">概览</h2>
+<p>boot bus 用途：The boot bus hardware provides a general-purpose bus that typically attaches to novolatile devices, like flash memories(both NOR and NAND), compact flash memeories,and ROMs,and can service the initial boot address.</p>
+<p>boot bus提供一个连接非易失设备如flash设备(NOR和NAND)，CF卡和ROMs的通用总线，而且支持初始化启动地址。</p>
+<p>大端boot bus包含：</p>
+<ul>
+<li><p>八个片选信号</p>
+</li>
+<li><p>32位地址/数据线</p>
+</li>
+<li><p>可编程8/16位字长</p>
+<ul>
+<li><p>在8位操作下，BOOT_AD<31:24>是数据总线</31:24></p>
+</li>
+<li><p>在32位操作下，BOOT_AD<31:24>是数据总线高位字节，BOOT_AD<23:16>是数据总线地位字节</23:16></31:24></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>boot bus硬件还包含两个本地的128字节的内存区域。</p>
+<h2 id="地址">地址</h2>
+<p>boot bus占用物理地址4GB的空间，范围是：0x1 0000 0000 0000到0x1 0000 FFFF FFFF。</p>
+<blockquote>
+<p>内核会转换物理地址范围是0x0 0000 1000 0000 - 0x0 0000 1fff ffff到boot bus的物理地址范围是0x1 0000 1000 0000 - 0x1 0000 1fff ffff。</p>
+</blockquote>
+<p>如果一个系统内没有任何设备链接到boot bus，则boot bus内的两个本地的内存区域一定要提供表中(即0x1 0000 1FC0 0000和0x1 0000 1FC0 0480)异常的处理指令。</p>
+<p>每个本地内存区域可以保存32个指令，如果需要更多的指令去处理异常，异常捕获必须在32个指令内掉转到L2/DRAM中。</p>
+<h2 id="地址匹配和区域">地址匹配和区域</h2>
+<p>boot bus硬件仅提供对匹配的物理的地址的访问。首先会匹配两个本地内存区域，未名中，则再拿物理地址匹配总线区域。</p>
+<h3 id="本地内存区域">本地内存区域</h3>
+<p>MIO_BOOT_LOC_CFGn[EN]如果被设置了，则代表了对应本地内存区域被使能。如果PA<31:7>等于MIO_BOOT_LOC_CFGn[BASE]，就是匹配了本地内存区域。</31:7></p>
+<p>本地内存在使用之前必须被软件填充。填充本地内存区域0方法：</p>
+<ul>
+<li><p>设置MIO_BOOT_LOC_ADR为0x0(本地内存区域1为0x80)</p>
+</li>
+<li><p>写MIO_BOOT_LOC_DAT为16次，每次8个字节</p>
+</li>
+</ul>
+<h3 id="总线区域">总线区域</h3>
+<p>8个总线区域通过MIO_BOOT_REG_CFGn[EN]激活，每个总线区域的大小是(MIO_BOOT_REG_CFGn[SIZE] + 1) * 2^16。</p>
+<p>匹配条件：</p>
+<p>PA<31:16>     &gt;=    MIO_BOOT_REG_CFGn[BASE]    AND<br>PA<31:16>    &lt;=    MIO_BOOT_REG_CFGn[BASE] + MIO_BOOT_REG_CFGn[SIZE]</31:16></31:16></p>
+<h2 id="重置配置和启动">重置配置和启动</h2>
+<p>复位之后，总线区域0设置如下：</p>
+<ul>
+<li><p>是唯一有效区域</p>
+</li>
+<li><p>是最大值</p>
+</li>
+<li><p>映射物理地址0x1 0000 1FC0 0000到连接片选为0的设备的0x0地址</p>
+</li>
+<li><p>使用8位数据宽度</p>
+</li>
+<li><p>操作是独立的</p>
+</li>
+</ul>
+<p>这表示当设备自启动时，连接到片选为0的设备的0地址必须包含设备的启动代码。当设备启动时，0核立即执行这里的代码，紧随复位之后。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/bootloader/">bootloader</a>
+  <span></span> <a href="/tags/mips/">mips</a>
   </div>
 
 
@@ -105,7 +157,7 @@
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yoursite.com/2014/07/24/bootloader学习卡壳/" data-title="bootloader 卡壳 | sqm&#39;s Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://yoursite.com/2014/08/03/boot_bus/" data-title="boot bus on octeon | sqm&#39;s Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -114,19 +166,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/08/03/boot_bus/" title="boot bus on octeon">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  boot bus on octeon</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/07/16/gtpv2/"  title="gtpv2">
+<a href="/2014/07/24/bootloader学习卡壳/"  title="bootloader 卡壳">
  <strong>NEXT:</strong><br/> 
- <span>gtpv2
+ <span>bootloader 卡壳
 </span>
 </a>
 </div>
@@ -139,7 +183,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概览"><span class="toc-number">1.</span> <span class="toc-text">概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址"><span class="toc-number">2.</span> <span class="toc-text">地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址匹配和区域"><span class="toc-number">3.</span> <span class="toc-text">地址匹配和区域</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#本地内存区域"><span class="toc-number">3.1.</span> <span class="toc-text">本地内存区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总线区域"><span class="toc-number">3.2.</span> <span class="toc-text">总线区域</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#重置配置和启动"><span class="toc-number">4.</span> <span class="toc-text">重置配置和启动</span></a></li></ol>
   </div>
 
 <div id="asidepart">
