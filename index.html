@@ -63,6 +63,24 @@
 
   <section class="post" itemscope itemprop="blogPost">
   
+    <a href="/2014/08/29/mem-barrier/" title="mem barrier" itemprop="url">
+  
+    <h1 itemprop="name">mem barrier</h1>
+    
+     
+           <p itemprop="description" >变量当作开关，被编译器优化
+    while (pgsreg-&amp;gt;ctrl_sw.flag_decode_lte) {
+    }
+
+flag_decode_lte 没有加上volatile关键字修饰，如果flag_decode_lte被设置，就会进入死循环。如果在被设置为</p>
+        
+    
+    <time datetime="2014-08-29T07:52:09.000Z" itemprop="datePublished">8月 29 2014</time>
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
     <a href="/2014/08/10/coder_career/" title="coder career" itemprop="url">
   
     <h1 itemprop="name">coder career</h1>
@@ -224,6 +242,8 @@ link from wiki
 			<li><a href="/tags/link/" title="link">link<sup>1</sup></a></li>
 		
 			<li><a href="/tags/mips/" title="mips">mips<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mips-asm/" title="mips asm">mips asm<sup>1</sup></a></li>
 		
 		</ul>
 </div>

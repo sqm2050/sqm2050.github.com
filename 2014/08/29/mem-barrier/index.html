@@ -4,13 +4,18 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>boot bus on octeon | sqm&#39;s Blog</title>
+    <title>mem barrier | sqm&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="SunQingmeng">
     
-    <meta name="description" content="概览
-boot bus 用途：The boot bus hardware provides a general-purpose bus that typically attaches to novolatile devices, like flash memories(both NOR and NA">
+    <meta name="description" content="变量当作开关，被编译器优化
+    while (pgsreg-&amp;gt;ctrl_sw.flag_decode_lte) {
+    }
+
+flag_decode_lte 没有加上volatile关键字修饰，如果flag_decode_lte被设置，就会进入死循环。如果在被设置为零也会跳出循环。
+
+">
     
     
     
@@ -67,15 +72,15 @@ boot bus 用途：The boot bus hardware provides a general-purpose bus that typi
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/08/03/boot_bus/" title="boot bus on octeon" itemprop="url">boot bus on octeon</a>
+      <a href="/2014/08/29/mem-barrier/" title="mem barrier" itemprop="url">mem barrier</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://yoursite.com" title="SunQingmeng">SunQingmeng</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-08-03T06:14:10.000Z" itemprop="datePublished">8月 3 2014</time>
-    更新日期:<time datetime="2014-08-04T03:28:46.000Z" itemprop="dateModified">8月 4 2014</time>
+    <time datetime="2014-08-29T07:52:09.000Z" itemprop="datePublished">8月 29 2014</time>
+    更新日期:<time datetime="2014-08-29T07:52:51.000Z" itemprop="dateModified">8月 29 2014</time>
     
   </p>
 </header>
@@ -84,72 +89,87 @@ boot bus 用途：The boot bus hardware provides a general-purpose bus that typi
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概览"><span class="toc-number">1.</span> <span class="toc-text">概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址"><span class="toc-number">2.</span> <span class="toc-text">地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址匹配和区域"><span class="toc-number">3.</span> <span class="toc-text">地址匹配和区域</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#本地内存区域"><span class="toc-number">3.1.</span> <span class="toc-text">本地内存区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总线区域"><span class="toc-number">3.2.</span> <span class="toc-text">总线区域</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#重置配置和启动"><span class="toc-number">4.</span> <span class="toc-text">重置配置和启动</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#变量当作开关，被编译器优化"><span class="toc-number">1.</span> <span class="toc-text">变量当作开关，被编译器优化</span></a></li></ol>
 		</div>
 		
-		<h2 id="概览">概览</h2>
-<p>boot bus 用途：The boot bus hardware provides a general-purpose bus that typically attaches to novolatile devices, like flash memories(both NOR and NAND), compact flash memeories,and ROMs,and can service the initial boot address.</p>
-<p>boot bus提供一个连接非易失设备如flash设备(NOR和NAND)，CF卡和ROMs的通用总线，而且支持初始化启动地址。</p>
-<p>大端boot bus包含：</p>
-<ul>
-<li><p>八个片选信号</p>
-</li>
-<li><p>32位地址/数据线</p>
-</li>
-<li><p>可编程8/16位字长</p>
-<ul>
-<li><p>在8位操作下，BOOT_AD<31:24>是数据总线</31:24></p>
-</li>
-<li><p>在32位操作下，BOOT_AD<31:24>是数据总线高位字节，BOOT_AD<23:16>是数据总线地位字节</23:16></31:24></p>
-</li>
+		<h2 id="变量当作开关，被编译器优化">变量当作开关，被编译器优化</h2>
+<pre><code>    <span class="keyword">while</span> (pgsreg<span class="subst">-&gt;</span>ctrl_sw<span class="built_in">.</span>flag_decode_lte) {
+    }
+</code></pre><ul>
+<li><code>flag_decode_lte</code> 没有加上volatile关键字修饰，如果<code>flag_decode_lte</code>被设置，就会进入死循环。如果在被设置为零也会跳出循环。</li>
 </ul>
-</li>
+<pre><code>    <span class="number">10001928</span>:    e896034a     bbit1    a0,<span class="number">0x16</span>,<span class="number">10002654</span> &lt;zxmd_main_process+<span class="number">0xeec</span>&gt;
+    <span class="keyword">...</span>
+    <span class="number">10002654</span>:    <span class="number">08000995</span>     j    <span class="number">10002654</span> &lt;zxmd_main_process+<span class="number">0xeec</span>&gt;
+</code></pre><ul>
+<li>加上volatile关键字之后</li>
+<li><pre><code>  <span class="attribute">10001928</span>: <span class="string">   dc620020     ld    v0,32(v1)</span>
+  <span class="attribute">1000192c</span>: <span class="string">   e856fffe     bbit1    v0,0x16,10001928 &lt;zxmd_main_process+0x1c0&gt;</span>
+</code></pre></li>
+<li><p>加上内存栅栏</p>
+<pre><code>  <span class="keyword">while</span> (pgsreg-&gt;ctrl_sw.flag_decode_lte) {
+      <span class="keyword">asm</span> <span class="keyword">volatile</span> (<span class="string">""</span>: : : <span class="string">"memory"</span>);
+  }
+</code></pre></li>
 </ul>
-<p>boot bus硬件还包含两个本地的128字节的内存区域。</p>
-<h2 id="地址">地址</h2>
-<p>boot bus占用物理地址4GB的空间，范围是：0x1 0000 0000 0000到0x1 0000 FFFF FFFF。</p>
-<blockquote>
-<p>内核会转换物理地址范围是0x0 0000 1000 0000 - 0x0 0000 1fff ffff到boot bus的物理地址范围是0x1 0000 1000 0000 - 0x1 0000 1fff ffff。</p>
-</blockquote>
-<p>如果一个系统内没有任何设备链接到boot bus，则boot bus内的两个本地的内存区域一定要提供表中(即0x1 0000 1FC0 0000和0x1 0000 1FC0 0480)异常的处理指令。</p>
-<p>每个本地内存区域可以保存32个指令，如果需要更多的指令去处理异常，异常捕获必须在32个指令内掉转到L2/DRAM中。</p>
-<h2 id="地址匹配和区域">地址匹配和区域</h2>
-<p>boot bus硬件仅提供对匹配的物理的地址的访问。首先会匹配两个本地内存区域，未名中，则再拿物理地址匹配总线区域。</p>
-<h3 id="本地内存区域">本地内存区域</h3>
-<p>MIO_BOOT_LOC_CFGn[EN]如果被设置了，则代表了对应本地内存区域被使能。如果PA<31:7>等于MIO_BOOT_LOC_CFGn[BASE]，就是匹配了本地内存区域。</31:7></p>
-<p>本地内存在使用之前必须被软件填充。填充本地内存区域0方法：</p>
+<p>汇编码：</p>
+<pre><code>    <span class="attribute">10001930</span>: <span class="string">   dc825d88     ld    v0,23944(a0)</span>
+    <span class="attribute">10001934</span>: <span class="string">   dc430020     ld    v1,32(v0)</span>
+    <span class="attribute">10001938</span>: <span class="string">   e876fffd     bbit1    v1,0x16,10001930 &lt;zxmd_main_process+0x1c8&gt;</span>
+</code></pre><p>效果比volatile还要明显，ctrl_sw变量的地址也是重新获取的。</p>
 <ul>
-<li><p>设置MIO_BOOT_LOC_ADR为0x0(本地内存区域1为0x80)</p>
-</li>
-<li><p>写MIO_BOOT_LOC_DAT为16次，每次8个字节</p>
-</li>
+<li>这里在介绍一下sync同步</li>
 </ul>
-<h3 id="总线区域">总线区域</h3>
-<p>8个总线区域通过MIO_BOOT_REG_CFGn[EN]激活，每个总线区域的大小是(MIO_BOOT_REG_CFGn[SIZE] + 1) * 2^16。</p>
-<p>匹配条件：</p>
-<p>PA<31:16>     &gt;=    MIO_BOOT_REG_CFGn[BASE]    AND<br>PA<31:16>    &lt;=    MIO_BOOT_REG_CFGn[BASE] + MIO_BOOT_REG_CFGn[SIZE]</31:16></31:16></p>
-<h2 id="重置配置和启动">重置配置和启动</h2>
-<p>复位之后，总线区域0设置如下：</p>
 <ul>
-<li><p>是唯一有效区域</p>
-</li>
-<li><p>是最大值</p>
-</li>
-<li><p>映射物理地址0x1 0000 1FC0 0000到连接片选为0的设备的0x0地址</p>
-</li>
-<li><p>使用8位数据宽度</p>
-</li>
-<li><p>操作是独立的</p>
-</li>
+<li><p>如上在内存栅栏中没有添加sync指令，只是破坏性指示中有“memory”，这样仅能保证没去做load指令，但是在有cache的系统中不能保证cache的同步，所以可以加上sync指令，加强同步。</p>
+<pre><code>  <span class="keyword">while</span> (pgsreg-&gt;ctrl_sw.flag_decode_lte) {
+      <span class="keyword">asm</span> <span class="keyword">volatile</span> (<span class="string">"sync"</span>: : : <span class="string">"memory"</span>);
+  }
+</code></pre></li>
 </ul>
-<p>这表示当设备自启动时，连接到片选为0的设备的0地址必须包含设备的启动代码。当设备启动时，0核立即执行这里的代码，紧随复位之后。</p>
-  
+<p>汇编码</p>
+<pre><code>    <span class="attribute">10001930</span>: <span class="string">   0000000f     sync</span>
+    <span class="attribute">10001934</span>: <span class="string">   dc825d88     ld    v0,23944(a0)</span>
+    <span class="attribute">10001938</span>: <span class="string">   dc430020     ld    v1,32(v0)</span>
+    <span class="attribute">1000193c</span>: <span class="string">   e876fffc     bbit1    v1,0x16,10001930 &lt;zxmd_main_process+0x1c8&gt;</span>
+</code></pre><ul>
+<li><p>可是如果只是加上sync指令，它指示cache需要同步，但是不能防止gcc对代码的优化<br>如：</p>
+<pre><code>  <span class="keyword">while</span> (pgsreg-&gt;ctrl_sw.flag_decode_lte) {
+      <span class="keyword">asm</span> <span class="keyword">volatile</span> (<span class="string">"sync"</span>: :);
+  }
+</code></pre></li>
+</ul>
+<p>如果没有破坏性指示最后一个<code>：</code>不需要，否则编译不通过。</p>
+<p>汇编码</p>
+<pre><code>    <span class="attribute">10001920</span>: <span class="string">   dc435d88     ld    v1,23944(v0)</span>
+    <span class="attribute">10001924</span>: <span class="string">   dc640020     ld    a0,32(v1)</span>
+    <span class="attribute">10001928</span>: <span class="string">   c8960012     bbit0    a0,0x16,10001974 &lt;zxmd_main_process+0x20c&gt; # 此行判断开关</span>
+    <span class="attribute">1000192c</span>: <span class="string">   00000000     nop</span>
+    <span class="attribute">10001930</span>: <span class="string">   0000000f     sync                                   # 如果成立则进入此死循环</span>
+    <span class="attribute">10001934</span>: <span class="string">   0000000f     sync</span>
+    <span class="attribute">10001938</span>: <span class="string">   0800064c     j    10001930 &lt;zxmd_main_process+0x1c8&gt;</span>
+    <span class="attribute">1000193c</span>: <span class="string">   00000000     nop</span>
+    <span class="attribute">10001940</span>: <span class="string">   0c00a460     jal    10029180 &lt;fmt_put&gt;</span>
+    <span class="attribute">10001944</span>: <span class="string">   00000000     nop</span>
+    <span class="attribute">10001948</span>: <span class="string">   dfbf0048     ld    ra,72(sp)</span>
+    <span class="attribute">1000194c</span>: <span class="string">   dfb70040     ld    s7,64(sp)</span>
+    <span class="attribute">10001950</span>: <span class="string">   dfb60038     ld    s6,56(sp)</span>
+    <span class="attribute">10001954</span>: <span class="string">   dfb50030     ld    s5,48(sp)</span>
+    <span class="attribute">10001958</span>: <span class="string">   dfb40028     ld    s4,40(sp)</span>
+    <span class="attribute">1000195c</span>: <span class="string">   dfb30020     ld    s3,32(sp)</span>
+    <span class="attribute">10001960</span>: <span class="string">   dfb20018     ld    s2,24(sp)</span>
+    <span class="attribute">10001964</span>: <span class="string">   dfb10010     ld    s1,16(sp)</span>
+    <span class="attribute">10001968</span>: <span class="string">   dfb00008     ld    s0,8(sp)</span>
+    <span class="attribute">1000196c</span>: <span class="string">   03e00008     jr    ra</span>
+    <span class="attribute">10001970</span>: <span class="string">   67bd0050     daddiu    sp,sp,80</span>
+    <span class="attribute">10001974</span>: <span class="string">   3c008888     lui    zero,0x8888</span>
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/mips/">mips</a>
+  <span></span> <a href="/tags/mips-asm/">mips asm</a>
   </div>
 
 
@@ -157,7 +177,7 @@ boot bus 用途：The boot bus hardware provides a general-purpose bus that typi
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yoursite.com/2014/08/03/boot_bus/" data-title="boot bus on octeon | sqm&#39;s Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://yoursite.com/2014/08/29/mem-barrier/" data-title="mem barrier | sqm&#39;s Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -166,19 +186,11 @@ boot bus 用途：The boot bus hardware provides a general-purpose bus that typi
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/08/10/coder_career/" title="coder career">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  coder career</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/07/24/bootloader学习卡壳/"  title="bootloader 卡壳">
+<a href="/2014/08/10/coder_career/"  title="coder career">
  <strong>NEXT:</strong><br/> 
- <span>bootloader 卡壳
+ <span>coder career
 </span>
 </a>
 </div>
@@ -191,7 +203,7 @@ boot bus 用途：The boot bus hardware provides a general-purpose bus that typi
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概览"><span class="toc-number">1.</span> <span class="toc-text">概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址"><span class="toc-number">2.</span> <span class="toc-text">地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址匹配和区域"><span class="toc-number">3.</span> <span class="toc-text">地址匹配和区域</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#本地内存区域"><span class="toc-number">3.1.</span> <span class="toc-text">本地内存区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总线区域"><span class="toc-number">3.2.</span> <span class="toc-text">总线区域</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#重置配置和启动"><span class="toc-number">4.</span> <span class="toc-text">重置配置和启动</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#变量当作开关，被编译器优化"><span class="toc-number">1.</span> <span class="toc-text">变量当作开关，被编译器优化</span></a></li></ol>
   </div>
 
 <div id="asidepart">
